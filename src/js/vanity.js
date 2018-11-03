@@ -1,27 +1,23 @@
 /* eslint-env worker */
-const secp256k1 = require('secp256k1');
+const crypto = require('crypto');
 const keccak = require('keccak');
 const randomBytes = require('randombytes');
 
 const step = 500;
-
-/**
- * Transform a private key into an address
- */
-const privateToAddress = (privateKey) => {
-    const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
-    return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
-};
+const curve = 'prime256v1'; /* OpenSSL curve name */
 
 /**
  * Create a wallet from a random private key
  * @returns {{address: string, privKey: string}}
  */
 const getRandomWallet = () => {
-    const randbytes = randomBytes(32);
+    const ecdh = crypto.createECDH(curve);
+    ecdh.generateKeys();
+    var key = ecdh.getPrivateKey();
+    var pub = ecdh.getPublicKey();
     return {
-        address: privateToAddress(randbytes).toString('hex'),
-        privKey: randbytes.toString('hex')
+        address: keccak('keccak256').update(pub.slice(1)).digest().slice(-20).toString('hex'),
+        privKey: key.toString('hex')
     };
 };
 
