@@ -1,8 +1,8 @@
 <template>
     <!--Github corner-->
     <div>
-        <h1>VANITY-ETH</h1>
-        <p>ETH vanity address generator</p>
+        <h1>VANITY-NEW</h1>
+        <p>NEW vanity address generator</p>
     </div>
 </template>
 
@@ -14,7 +14,7 @@
     @import "../css/variables"
 
     div
-        margin-bottom: 8em
+        margin-bottom: 0em
         color: $logo
         font-family: 'Montserrat', sans-serif
         text-align: center
@@ -40,7 +40,7 @@
 
     @media screen and (max-width: 1024px)
         div
-            margin-bottom: 4em
+            margin-bottom: 0em
             h1
                 font-size: 2.5em
                 border-width: 3px
@@ -50,7 +50,7 @@
 
     @media screen and (max-width: 640px)
         div
-            margin-bottom: 4em
+            margin-bottom: 0em
             h1
                 font-size: 2.2em
             p

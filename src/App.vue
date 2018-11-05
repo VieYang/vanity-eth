@@ -4,13 +4,6 @@
             <!--Headline-->
             <headline></headline>
 
-            <!--Description-->
-            <div class="row">
-                <div class="col-md-12">
-                    <description></description>
-                </div>
-            </div>
-
             <!--Error-->
             <div v-if="error" class="row">
                 <div class="col-md-12">
@@ -55,7 +48,6 @@
     import Worker from './js/vanity.js';
 
     import Headline from './vue/Headline';
-    import Description from './vue/Description';
     import Err from './vue/Error';
     import UserInput from './vue/Input';
     import Statistics from './vue/Statistics';
@@ -65,7 +57,7 @@
     import Foot from './vue/Footer';
 
     export default {
-        components: {Headline, Description, Err, UserInput, Statistics, Result, Save, Corner, Foot},
+        components: {Headline, Err, UserInput, Statistics, Result, Save, Corner, Foot},
         data: function () {
             return {
                 running: false,
@@ -243,7 +235,7 @@
             this.checkLocation();
             this.countCores();
             this.initWorkers();
-            this.initFathom();
+            // this.initFathom();
         }
     };
 
