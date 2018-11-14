@@ -20,9 +20,13 @@
 </template>
 
 <script>
-    const computeDifficulty = function (pattern, isChecksum) {
-        const ret = Math.pow(16, pattern.length);
-        return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
+    const computeDifficulty = function (pattern, isChecksum, isCheckNew) {
+        if (isCheckNew) {
+            return isChecksum ? Math.pow(62, pattern.length) : Math.pow(36, pattern.length);
+        } else {
+            const ret = Math.pow(16, pattern.length);
+            return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
+        }
     };
 
     const computeProbability = function (difficulty, attempts) {
@@ -39,6 +43,7 @@
         props: {
             hex: String,
             checksum: Boolean,
+            checknew: Boolean,
             status: String,
             firstTick: {}
         },
@@ -48,11 +53,14 @@
             },
             checksum() {
                 this.count = 0;
+            },
+            checknew() {
+                this.count = 0;
             }
         },
         computed: {
             difficulty: function () {
-                return this.inputError ? 'N/A' : computeDifficulty(this.hex, this.checksum);
+                return this.inputError ? 'N/A' : computeDifficulty(this.hex, this.checksum, this.checknew);
             },
             probability50: function () {
                 return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' addresses';

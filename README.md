@@ -48,7 +48,7 @@ The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 
 
 ## Performance
 
-For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. 
+For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
 Currently, Chrome provides the best results.
 
 Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
@@ -85,8 +85,6 @@ npm run build
 The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages.
 
 ## Tips
-
-`0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc`
 
 [build-img]: https://flat.badgen.net/travis/bokub/vanity-eth
 [build-link]: https://travis-ci.org/bokub/vanity-eth

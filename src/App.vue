@@ -20,8 +20,8 @@
 
                 <!--Statistics-->
                 <div class="col-md-6">
-                    <statistics :hex="input.hex" :checksum="input.checksum" :status="status"
-                                :first-tick="firstTick"></statistics>
+                    <statistics :hex="input.hex" :checksum="input.checksum" :checknew="input.checknew"
+                                :status="status" :first-tick="firstTick"></statistics>
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                 threads: 4,
                 cores: 0,
                 result: {address: '', privateKey: ''},
-                input: {hex: '', checksum: true, suffix: false},
+                input: {hex: '', checksum: true, checknew: true, suffix: false},
                 firstTick: null,
                 error: null
             };
@@ -87,6 +87,9 @@
                     break;
                 case 'checksum':
                     this.input.checksum = value;
+                    break;
+                case 'checknew':
+                    this.input.checknew = value;
                     break;
                 case 'suffix':
                     this.input.suffix = value;
@@ -225,7 +228,7 @@
                     this.error = 'insecure_location';
                 }
                 const hostname = window.location.hostname;
-                if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
+                if (hostname && ['localhost', '127.0.0.1', 'vieyang.github.io'].indexOf(hostname) === -1) {
                     this.error = 'insecure_location';
                 }
             },
@@ -258,7 +261,7 @@
         padding: 0
         font-family: 'Lato', sans-serif
         background: $bg-fallback
-        background: linear-gradient(140deg, $bg-2 0%, $bg-1 100%)
+        background: linear-gradient(140deg, $bg-1 0%, $bg-2 100%)
         background-attachment: fixed
         font-size: 16px
 

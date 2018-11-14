@@ -1,7 +1,7 @@
 <template>
     <div class="panel" id="input-panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
-            <div class="error-text">Numbers and letters from A to F only</div>
+            <div class="error-text">Numbers and letters from A to F or A to Z for NEW only</div>
             <input type="text" class="text-input-large" id="input"
                    :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
@@ -12,7 +12,7 @@
             <div class="example hide-prerender">
                 E.g.&nbsp;
                 <span class="monospace">
-                    0x<!--
+                    <span v-text="example.prefix"></span><!--
                     --><b v-if="!suffix" v-text="example.chosen"></b><!--
                     --><span v-text="example.random"></span><!--
                     --><b v-if="suffix" v-text="example.chosen"></b>
@@ -36,14 +36,24 @@
                     <span>Suffix</span>
                 </div>
             </div>
-            <div class="threads hide-prerender">
-                <input type="button" class="square-btn button-large" value="-" @click="threads--"
-                       :disabled="running || threads <= 1">
-                <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
-                       :disabled="running">
-                <h4 v-text="threads"></h4>
-                <span>threads</span>
-                <span v-if="threads === cores">(recommended)</span>
+            <div class="row controls hide-prerender">
+                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                    <label class="checkbox">
+                        <input type="checkbox" name="checkbox" checked="" v-model="checknew"
+                               :disabled="running">
+                        <i class="left"> </i>
+                        NEW
+                    </label>
+                </div>
+                <div class="threads col-12 col-sm-6 col-md-12 col-lg-6">
+                      <input type="button" class="square-btn button-large" value="-" @click="threads--"
+                             :disabled="running || threads <= 1">
+                      <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
+                             :disabled="running">
+                      <h4 v-text="threads"></h4>
+                      <span>threads</span>
+                      <span v-if="threads === cores">(recommended)</span>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -62,6 +72,9 @@
 <script>
     const isValidHex = function (hex) {
         return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
+    };
+    const isValidNEW = function (hex) {
+        return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
     };
 
     function mixCase(str) {
@@ -82,24 +95,36 @@
                 threads: 4,
                 hex: '',
                 checksum: true,
+                checknew: true,
                 suffix: false,
                 error: false
             };
         },
         computed: {
             inputError: function () {
-                return !isValidHex(this.hex);
+                return this.checknew ? !isValidNEW(this.hex): !isValidHex(this.hex);
             },
             example: function () {
                 if (this.inputError) {
                     return 'N/A';
                 }
                 const chosen = this.checksum ? this.hex : mixCase(this.hex);
-                let random = '';
-                for (let i = 0; i < 40 - this.hex.length; i++) {
-                    random += mixCase(Math.floor((Math.random() * 16)).toString(16));
+                if (this.checknew) {
+                    let prefix = "NEW132A";
+                    let random = '';
+                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                    for (let i = 0; i < 33 - this.hex.length; i++) {
+                        random += mixCase(possible.charAt(Math.floor(Math.random() * possible.length)));
+                    }
+                    return {random, chosen, prefix};
+                } else {
+                    let prefix = "0x";
+                    let random = '';
+                    for (let i = 0; i < 40 - this.hex.length; i++) {
+                        random += mixCase(Math.floor((Math.random() * 16)).toString(16));
+                    }
+                    return {random, chosen, prefix};
                 }
-                return {random, chosen};
             }
         },
         methods: {
@@ -118,6 +143,9 @@
             },
             checksum: function () {
                 this.$emit('input-change', 'checksum', this.checksum);
+            },
+            checknew: function () {
+                this.$emit('input-change', 'checknew', this.checknew);
             },
             suffix: function () {
                 this.$emit('input-change', 'suffix', this.suffix);

