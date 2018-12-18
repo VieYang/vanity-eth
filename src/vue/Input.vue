@@ -3,7 +3,7 @@
         <form :class="{error: inputError}" @submit.prevent="startGen">
             <div class="error-text">NEW地址只能为字母或数字</div>
             <input type="text" class="text-input-large" id="input"
-                   :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
+                   :placeholder="suffix ? '后缀' : '前缀'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
                 <div class="spinner">
                     <div></div><div></div><div></div><div></div>
@@ -57,12 +57,12 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Generate" class="button-large hide-render" disabled>
-                    <input type="button" value="Generate" class="button-large hide-prerender" @click="startGen"
+                    <input type="button" value="开始" class="button-large hide-render" disabled>
+                    <input type="button" value="开始" class="button-large hide-prerender" @click="startGen"
                            :disabled="running || inputError || error">
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Stop" class="button-large" @click="stopGen" :disabled="!running">
+                    <input type="button" value="暂停" class="button-large" @click="stopGen" :disabled="!running">
                 </div>
             </div>
         </form>

@@ -61,7 +61,7 @@
         data: function () {
             return {
                 running: false,
-                status: 'Waiting',
+                status: '等待中...',
                 workers: [],
                 threads: 4,
                 cores: 0,
@@ -103,7 +103,7 @@
                 this.$emit('increment-counter', result.attempts);
                 this.result.address = result.address;
                 this.result.privateKey = result.privKey;
-                this.status = 'Address found';
+                this.status = '已找到地址';
             },
 
             clearResult: function () {
@@ -173,13 +173,13 @@
                     this.workers[w].postMessage(this.input);
                 }
 
-                this.status = 'Running';
+                this.status = '正在运行...';
                 this.firstTick = performance.now();
             },
 
             stopGen: function () {
                 this.running = false;
-                this.status = 'Stopped';
+                this.status = '已暂停';
                 for (let i = 0; i < this.workers.length; i++) {
                     this.workers[i].terminate();
                 }

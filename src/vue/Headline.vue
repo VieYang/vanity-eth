@@ -23,7 +23,7 @@
             font-size: 3em
             font-weight: 700
             border: 4px solid $logo
-            width: 7.8em
+            width: 9.8em
             margin: 0 auto
 
         p
