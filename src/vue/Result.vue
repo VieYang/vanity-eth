@@ -3,14 +3,14 @@
         <div class="row">
             <div class="float-left" id="identicon"></div>
             <div class="col">
-                <div>Address: <span class="output" v-text="address"></span></div>
-                <div>Private key:
-                    <span class="output" v-if="privateKey" v-text="reveal ? privateKey : 'Click to reveal'" @click="reveal = true"></span>
+                <div>地址: <span class="output" v-text="address"></span></div>
+                <div>私钥:
+                    <span class="output" v-if="privateKey" v-text="reveal ? privateKey : '点击显示'" @click="reveal = true"></span>
                 </div>
             </div>
             <div class="col-lg-2 col-12">
                 <button data-remodal-target="modal" class="save button-large" :disabled="!privateKey">
-                    <i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;Save
+                    <i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;保存
                 </button>
             </div>
         </div>

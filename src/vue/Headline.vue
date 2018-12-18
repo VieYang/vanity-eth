@@ -1,8 +1,8 @@
 <template>
     <!--Github corner-->
     <div>
-        <h1>VANITY-NEW</h1>
-        <p>NEW vanity address generator</p>
+        <h1>NewChain选号中心</h1>
+        <p>选择你喜欢的NewChain地址</p>
     </div>
 </template>
 

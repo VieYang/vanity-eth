@@ -1,12 +1,12 @@
 <template>
     <div class="panel">
-        <div>Difficulty: <span class="output" v-text="formatNum(difficulty)">1</span></div>
-        <div>Generated: <span class="output"
-                              v-text="formatNum(count) + (count === 1 ? ' address' : ' addresses')">0 addresses</span>
+        <div>难度: <span class="output" v-text="formatNum(difficulty)">1</span></div>
+        <div>已生成: <span class="output"
+                              v-text="formatNum(count) + (' 地址')">0 地址</span>
         </div>
-        <div>50% probability: <span class="output" v-text="probability50">0 addresses</span></div>
-        <div>Speed: <span class="output" v-text="speed + ' addr/s'">0 addr/s</span></div>
-        <div>Status: <span class="output" v-text="status">Waiting</span></div>
+        <div>50% 几率: <span class="output" v-text="probability50">0 地址</span></div>
+        <div>速度: <span class="output" v-text="speed + ' addr/s'">0 addr/s</span></div>
+        <div>状态: <span class="output" v-text="status">等待中...</span></div>
 
         <!--Probability-->
         <div class="probability">
@@ -14,7 +14,7 @@
         </div>
         <div class="percentage">
             <h4 v-text="probability + '%'">0%</h4>
-            <div>Probability</div>
+            <div>可能性</div>
         </div>
     </div>
 </template>
@@ -63,7 +63,7 @@
                 return this.inputError ? 'N/A' : computeDifficulty(this.hex, this.checksum, this.checknew);
             },
             probability50: function () {
-                return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' addresses';
+                return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' 地址';
             },
             probability: function () {
                 return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;

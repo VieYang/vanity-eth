@@ -24,16 +24,16 @@
                         <input type="checkbox" name="checkbox" checked="" v-model="checksum"
                                :disabled="running">
                         <i class="left"> </i>
-                        Case-sensitive
+                        区分大小写
                     </label>
                 </div>
                 <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                    <span>Prefix</span>
+                    <span>前缀</span>
                     <label class="switch">
                         <input type="checkbox" v-model="suffix" :disabled="running">
                         <span class="slider"></span>
                     </label>
-                    <span>Suffix</span>
+                    <span>后缀</span>
                 </div>
             </div>
             <div class="row controls hide-prerender">
@@ -42,7 +42,7 @@
                         <input type="checkbox" name="checkbox" checked="" v-model="checknew"
                                :disabled="running">
                         <i class="left"> </i>
-                        NEW
+                        NEW标准地址
                     </label>
                 </div>
                 <div class="threads col-12 col-sm-6 col-md-12 col-lg-6">
@@ -51,8 +51,8 @@
                       <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
                              :disabled="running">
                       <h4 v-text="threads"></h4>
-                      <span>threads</span>
-                      <span v-if="threads === cores">(recommended)</span>
+                      <span>线程</span>
+                      <span v-if="threads === cores">(推荐)</span>
                 </div>
             </div>
             <div class="row">
