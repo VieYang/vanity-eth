@@ -1,7 +1,7 @@
 <template>
     <div class="panel" id="input-panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
-            <div class="error-text">Numbers and letters from A to F or A to Z for NEW only</div>
+            <div class="error-text">NEW地址只能为字母或数字</div>
             <input type="text" class="text-input-large" id="input"
                    :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
@@ -73,8 +73,12 @@
     const isValidHex = function (hex) {
         return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
     };
-    const isValidNEW = function (hex) {
-        return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+    const isValidNEW = function (hex, suffix) {
+        if (suffix) {
+          return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+        } else {
+          return hex.length ? /^[D-Za-c]+$/g.test(hex.substring(0, 1)) && /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+        }
     };
 
     function mixCase(str) {
@@ -102,7 +106,7 @@
         },
         computed: {
             inputError: function () {
-                return this.checknew ? !isValidNEW(this.hex): !isValidHex(this.hex);
+                return this.checknew ? !isValidNEW(this.hex, this.suffix): !isValidHex(this.hex);
             },
             example: function () {
                 if (this.inputError) {
@@ -110,10 +114,10 @@
                 }
                 const chosen = this.checksum ? this.hex : mixCase(this.hex);
                 if (this.checknew) {
-                    let prefix = "NEW132A";
-                    let random = '';
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                    for (let i = 0; i < 33 - this.hex.length; i++) {
+                    let prefix = "NEW182";
+                    let random = 'N';
+                    var possible = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    for (let i = 0; i < 32 - this.hex.length; i++) {
                         random += mixCase(possible.charAt(Math.floor(Math.random() * possible.length)));
                     }
                     return {random, chosen, prefix};

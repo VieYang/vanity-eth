@@ -149,7 +149,7 @@ const encode = (data) => {
 };
 
 const toNewAddress = (address) => {
-    const bytes = Buffer.from('41f8' + address, 'hex');
+    const bytes = Buffer.from('03f4' + address, 'hex');
     const newAddress = encode(bytes); // base58check.encode(bytes);
 
     return newAddress;
@@ -180,7 +180,7 @@ const getVanityWallet = (input, isChecksum, isCheckNew, isSuffix, cb) => {
     while (true) {
       if (isCheckNew) {
         let address = toNewAddress(wallet.address);
-        if (isValidVanityNewAddress(address.substr(4), input, isChecksum, isSuffix)) {
+        if (isValidVanityNewAddress(address.substr(3), input, isChecksum, isSuffix)) {
           cb({address: 'NEW' + address, privKey: wallet.privKey, attempts});
           break;
         }
