@@ -28,13 +28,13 @@
             <!--Result-->
             <div class="row">
                 <div class="col-md-12">
-                    <result :address="result.address" :private-key="result.privateKey"></result>
+                    <result :address="result.address" :xaddress="result.xaddress" :private-key="result.privateKey"></result>
                 </div>
             </div>
         </div>
 
         <!--Save modal-->
-        <save :address="result.address.toLowerCase()" :private-key="result.privateKey"></save>
+        <save :address="result.address.toLowerCase()" :xaddress="result.xaddress" :private-key="result.privateKey"></save>
 
         <!--Footer-->
         <foot></foot>
@@ -65,8 +65,8 @@
                 workers: [],
                 threads: 4,
                 cores: 0,
-                result: {address: '', privateKey: ''},
-                input: {hex: '', checksum: true, checknew: true, suffix: false},
+                result: {address: '', xaddress: '', privateKey: ''},
+                input: {hex: '', checksum: true, checknew: true, suffix: true},
                 firstTick: null,
                 error: null
             };
@@ -102,12 +102,14 @@
             displayResult: function (result) {
                 this.$emit('increment-counter', result.attempts);
                 this.result.address = result.address;
+                this.result.xaddress = result.xaddress;
                 this.result.privateKey = result.privKey;
                 this.status = '已找到地址';
             },
 
             clearResult: function () {
                 this.result.address = '';
+                this.result.xaddress = '';
                 this.result.privateKey = '';
                 this.$emit('increment-counter', -1);
             },
@@ -238,7 +240,6 @@
             this.checkLocation();
             this.countCores();
             this.initWorkers();
-            // this.initFathom();
         }
     };
 

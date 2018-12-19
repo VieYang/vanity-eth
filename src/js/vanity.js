@@ -67,6 +67,7 @@ const isValidChecksum = (address, input, isSuffix) => {
  */
 const isValidVanityNewAddress = (address, input, isChecksum, isSuffix) => {
     const subStr = isSuffix ? address.substr(33 - input.length) : address.substr(0, input.length);
+    console.log(address, " ", subStr, isSuffix);
 
     if (isChecksum) {
         return input === subStr;
@@ -178,18 +179,12 @@ const getVanityWallet = (input, isChecksum, isCheckNew, isSuffix, cb) => {
     let attempts = 1;
 
     while (true) {
-      if (isCheckNew) {
         let address = toNewAddress(wallet.address);
         if (isValidVanityNewAddress(address.substr(3), input, isChecksum, isSuffix)) {
-          cb({address: 'NEW' + address, privKey: wallet.privKey, attempts});
+          cb({address: 'NEW' + address, xaddress: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
           break;
         }
-      } else {
-        if (isValidVanityAddress(wallet.address, input, isChecksum, isSuffix)) {
-          cb({address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
-          break;
-        }
-      }
+
       if (attempts >= step) {
           cb({attempts});
           attempts = 0;

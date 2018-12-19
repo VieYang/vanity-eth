@@ -1,7 +1,7 @@
 <template>
     <div class="panel" id="input-panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
-            <div class="error-text">NEW地址只能为字母或数字</div>
+            <div class="error-text">NEW地址只能为字母或数字，自定义部分前缀首字母D-Z,a-c</div>
             <input type="text" class="text-input-large" id="input"
                    :placeholder="suffix ? '后缀' : '前缀'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
@@ -37,14 +37,6 @@
                 </div>
             </div>
             <div class="row controls hide-prerender">
-                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                    <label class="checkbox">
-                        <input type="checkbox" name="checkbox" checked="" v-model="checknew"
-                               :disabled="running">
-                        <i class="left"> </i>
-                        NEW标准地址
-                    </label>
-                </div>
                 <div class="threads col-12 col-sm-6 col-md-12 col-lg-6">
                       <input type="button" class="square-btn button-large" value="-" @click="threads--"
                              :disabled="running || threads <= 1">
@@ -73,11 +65,13 @@
     const isValidHex = function (hex) {
         return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
     };
-    const isValidNEW = function (hex, suffix) {
-        if (suffix) {
-          return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
-        } else {
+    const isValidNEW = function (hex, suffix, checksum) {
+        if (!suffix && checksum) {
           return hex.length ? /^[D-Za-c]+$/g.test(hex.substring(0, 1)) && /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+        } if (!suffix) {
+          return hex.length ? /^[a-z]+$/g.test(hex.substring(0, 1)) && /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+        } else {
+          return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
         }
     };
 
@@ -98,15 +92,15 @@
             return {
                 threads: 4,
                 hex: '',
-                checksum: true,
+                checksum: false,
                 checknew: true,
-                suffix: false,
+                suffix: true,
                 error: false
             };
         },
         computed: {
             inputError: function () {
-                return this.checknew ? !isValidNEW(this.hex, this.suffix): !isValidHex(this.hex);
+                return this.checknew ? !isValidNEW(this.hex, this.suffix, this.checksum): !isValidHex(this.hex);
             },
             example: function () {
                 if (this.inputError) {

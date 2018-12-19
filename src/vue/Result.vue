@@ -23,6 +23,7 @@
     export default {
         props: {
             address: String,
+            xaddress: String,
             privateKey: String
         },
         data: function () {

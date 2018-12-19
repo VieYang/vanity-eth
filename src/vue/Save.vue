@@ -27,6 +27,7 @@
     export default {
         props: {
             privateKey: String,
+            xaddress: String,
             address: String
         },
         data: function () {
@@ -44,10 +45,10 @@
             save() {
                 if (this.password) {
                     this.loading = true;
-
+                    console.log(this.xaddress);
                     setTimeout(() => {
                         const wallet = this.generateWallet(this.privateKey, this.password);
-                        const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + this.address;
+                        const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + this.xaddress;
                         download(JSON.stringify(wallet), fileName, 'application/json');
                         this.loading = false;
                     }, 20);
@@ -58,7 +59,7 @@
             generateWallet(privateKey, password) {
                 privateKey = Buffer.from(privateKey, 'hex');
                 return {
-                    address: this.address,
+                    address: this.xaddress,
                     crypto: this.encryptPrivateKey(privateKey, password),
                     id: v4(),
                     version: 3

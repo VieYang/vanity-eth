@@ -9,7 +9,7 @@
             <h3>安全警报</h3>
 
             您正在使用来自未知网站的vNEW，这可能会窃取您的私钥。<br>
-            为了保持安全，请访问网站<a href="https://vieyang.github.io/vanity-new/" target="_blank">vanity-eth.tk</a>来使用。
+            为了保持安全，请访问网站<a href="https://vieyang.github.io/NewAddress/" target="_blank">vanity-eth.tk</a>来使用。
         </div>
         <p v-else v-html="error.replace('\n', '<br>')"></p>
     </div>
