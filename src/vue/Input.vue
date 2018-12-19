@@ -1,7 +1,7 @@
 <template>
     <div class="panel" id="input-panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
-            <div class="error-text">NEW地址只能为字母或数字，自定义部分前缀首字母D-Z,a-c</div>
+            <div class="error-text">NEW地址只能为除去大写O,大写I,小写l的字母和非0数字，自定义部分前缀首字母只能为D-Z,a-c</div>
             <input type="text" class="text-input-large" id="input"
                    :placeholder="suffix ? '后缀' : '前缀'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
@@ -67,11 +67,13 @@
     };
     const isValidNEW = function (hex, suffix, checksum) {
         if (!suffix && checksum) {
-          return hex.length ? /^[D-Za-c]+$/g.test(hex.substring(0, 1)) && /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+          return hex.length ? /^[D-Za-c]+$/g.test(hex.substring(0, 1)) && /^[1-9A-HJ-NP-Za-km-z]+$/g.test(hex) : true;
         } if (!suffix) {
-          return hex.length ? /^[a-z]+$/g.test(hex.substring(0, 1)) && /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+          return hex.length ? /^[a-z]+$/g.test(hex.substring(0, 1)) && /^[1-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+        } else if (checksum) {
+          return hex.length ? /^[1-9A-HJ-NP-Za-km-z]+$/g.test(hex) : true;
         } else {
-          return hex.length ? /^[0-9A-Z]+$/g.test(hex.toUpperCase()) : true;
+          return hex.length ? /^[1-9A-Z]+$/g.test(hex.toUpperCase()) : true;
         }
     };
 
@@ -110,7 +112,7 @@
                 if (this.checknew) {
                     let prefix = "NEW182";
                     let random = 'N';
-                    var possible = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                    var possible = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
                     for (let i = 0; i < 32 - this.hex.length; i++) {
                         random += mixCase(possible.charAt(Math.floor(Math.random() * possible.length)));
                     }
